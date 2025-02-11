@@ -24,6 +24,11 @@ public:
                 minWindowSum = 0;
                 startMin = end + 1;
             }
+        }
+        if (totalSum == minSum) return maxSum;
+        return max(maxSum, totalSum - minSum);
+    }
+};
 Max Subarray Sum in a Circular Array
 This solution finds the maximum sum of a subarray, considering both normal and circular cases.
 
@@ -38,17 +43,3 @@ If all elements are negative, return maxSum.
 ⏳ Time Complexity: O(N) | 🛠 Space Complexity: O(1)
 
 This approach ensures an efficient and optimized solution! 🚀
-
-
-
-
-
-
-
-
-
-        }
-        if (totalSum == minSum) return maxSum;
-        return max(maxSum, totalSum - minSum);
-    }
-};
