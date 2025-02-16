@@ -1,0 +1,61 @@
+LEETCODE - 622
+Problem ( Design Circular Queue)
+SOlution
+class MyCircularQueue {
+public:
+    MyCircularQueue(int k) {
+        q.resize(k);
+        cnt=0;
+        sz=k;
+        headIdx=0;
+    }
+    bool enQueue(int value) {
+        if(isFull())return false;
+        q[(headIdx+cnt)%sz]=value;
+        cnt+=1;
+        return true;    
+    }
+    bool deQueue() {
+         if(isEmpty())return false;
+        headIdx=(headIdx+1)%sz;
+        cnt -=1;
+        return true;     
+    }
+    int Front() {
+        if(isEmpty())return -1;
+        return q[headIdx];
+    }
+    int Rear() {
+        if(isEmpty())return -1;
+        return q[(headIdx+cnt-1)%sz];
+    }
+    bool isEmpty() {
+        return cnt==0;
+    }
+    bool isFull() {
+        return cnt==sz;
+    }
+    private:
+    int cnt,sz,headIdx;
+    vector<int>q;
+};
+
+🚀 LeetCode 622 - Design Circular Queue
+🔹 Problem Statement:
+Implement a circular queue with the following operations:
+
+enQueue(int value) → Insert an element if the queue is not full.
+deQueue() → Remove an element if the queue is not empty.
+Front() → Get the front element of the queue.
+Rear() → Get the last element of the queue.
+isEmpty() → Check if the queue is empty.
+isFull() → Check if the queue is full.
+🔹 Approach:
+✅ Use a fixed-size array to store elements.
+✅ Maintain headIdx, cnt, and sz to track the queue’s state.
+✅ Modulo operation (%) is used for circular indexing.
+✅ Efficient operations with O(1) time complexity for enqueue, dequeue, and retrieval.
+
+🔹 Complexity Analysis:
+Time Complexity: O(1) for all operations.
+Space Complexity: O(k), where k is the queue size.
