@@ -1,0 +1,52 @@
+Leetcode 1652 
+Problem Defuse the Bomb
+Solution 
+class Solution {
+public:
+    vector<int> decrypt(vector<int>& code, int k) {
+        int n = code.size();
+        vector<int> result(n, 0); 
+        if (k == 0) return result; 
+        int wSum = 0;
+        int start = (k > 0) ? 1 : n + k;  
+        int end = (k > 0) ? k : n - 1;
+        for (int i = start; i <= end; i++) {
+            wSum += code[i % n]; 
+        }
+        for (int i = 0; i < n; i++) {
+            result[i] = wSum; 
+            wSum -= code[(start + i) % n];  
+            wSum += code[(end + i + 1) % n]; 
+        }
+        return result;
+    }
+}; 
+
+Description 
+Problem Description: Defuse the Bomb
+You are given a circular list code of length n and an integer k. Each element in code represents a number in a coded sequence. Your task is to decrypt this sequence based on the value of k using the following rules:
+
+If k > 0: Replace each element with the sum of the next k elements.
+If k < 0: Replace each element with the sum of the previous |k| elements.
+If k == 0: Replace every element with 0.
+Example:
+Input:
+cpp
+Copy
+Edit
+code = {5, 7, 1, 4}
+k = 3
+Output:
+cpp
+Copy
+Edit
+{12, 12, 16, 14}
+Explanation:
+For code[0] = 5, the sum of the next 3 elements {7, 1, 4} is 12.
+For code[1] = 7, the sum of the next 3 elements {1, 4, 5} (circular) is 12, and so on.
+
+Constraints:
+2 ≤ code.length ≤ 100
+-100 ≤ code[i] ≤ 100
+-code.length ≤ k ≤ code.length
+The solution implements a sliding window technique for efficient summation in O(n) time complexity. 🚀
