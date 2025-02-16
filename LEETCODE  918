@@ -1,1 +1,50 @@
+Leetcode Solution 918
+Problem = Maximum sum Circular Subarray
+Solution
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int totalSum = 0, windowSum = 0, minWindowSum = 0;
+        int maxSum = INT_MIN, minSum = INT_MAX;
+        int startMax = 0, startMin = 0;
+        for (int end = 0; end < nums.size(); end++) {
+            int num = nums[end];
+            totalSum += num;
+            windowSum += num;
+            maxSum = max(maxSum, windowSum);
+            if (windowSum < 0) {
+                windowSum = 0;
+                startMax = end + 1;
+            }
+            minWindowSum += num;
+            minSum = min(minSum, minWindowSum);
+            if (minWindowSum > 0) {
+                minWindowSum = 0;
+                startMin = end + 1;
+            }
+        }
+        if (totalSum == minSum) return maxSum;
+        return max(maxSum, totalSum - minSum);
+    }
+}; 
+Description
+🚀 LeetCode 918 - Maximum Sum Circular Subarray
+🔹 Problem Statement:
+Given a circular integer array nums, find the maximum possible sum of a non-empty subarray.
 
+🔹 Approach:
+✅ Kadane’s Algorithm for Max Sum: Find the maximum subarray sum using a standard approach.
+✅ Kadane’s Algorithm for Min Sum: Compute the minimum subarray sum to handle wrap-around cases.
+✅ Total Sum Check: If the entire array forms the minimum subarray, return the maximum subarray sum directly.
+✅ Final Result: The answer is max(maxSum, totalSum - minSum).
+
+🔹 Complexity Analysis:
+Time Complexity: O(n), as we traverse the array only once.
+Space Complexity: O(1), since only a few variables are used.
+🔹 Example:
+cpp
+Copy
+Edit
+Input: nums = [1,-2,3,-2]  
+Output: 3  
+Explanation: The maximum sum subarray is [3].
