@@ -1,0 +1,56 @@
+Leetcode (1718)
+Problem Name = Construct the Lexicographically Largest Valid Sequence
+Solution 
+ class Solution {
+public:
+    int n, az;
+    bitset<21> viz = 0;
+    vector<int> ans;
+    bool dfs(int pos) {
+        if (pos==az) return viz.count()==n; 
+        if (ans[pos]!= 0) return dfs(pos+1);  
+        for (int j=n; j>= 1; j--) {  
+            if (viz[j]) continue;  
+            int next_pos=(j>1)?pos+j:pos;  
+            if (next_pos>=az || ans[next_pos]!=0) continue;  
+            ans[pos]=ans[next_pos]= j;  
+            viz[j]=1;
+            if (dfs(pos+1)) return 1;  
+            ans[pos]=ans[next_pos]=viz[j]=0;
+        }
+        return 0;
+    }
+    vector<int> constructDistancedSequence(int n) {
+        this->n=n;
+        az=2*n-1;
+        ans.assign(az, 0);
+        dfs(0);
+        return ans;
+    }
+};
+
+Small description about the solution
+ Description
+🚀 LeetCode 1718 - Construct the Lexicographically Largest Valid Sequence
+🔹 Problem Statement:
+Given an integer n, construct a sequence of length 2n where:
+
+Each integer from 1 to n appears exactly twice.
+If x appears at indices i and j, then |i - j| = x.
+The sequence should be lexicographically largest.
+🔹 Approach:
+✅ Backtracking: Try placing numbers from n to 1 while ensuring valid placements.
+✅ Greedy Strategy: Place larger numbers first to achieve the lexicographically largest order.
+✅ Recursion with Pruning: Skip filled positions and backtrack when needed.
+
+🔹 Complexity Analysis:
+Time Complexity: O(2^n), due to recursive backtracking.
+Space Complexity: O(n), for recursion stack and tracking arrays.
+🔹 Example:
+cpp
+Copy
+Edit
+Input: n = 3  
+Output: [3, 1, 2, 3, 2, 1]
+📌 Full solution is available in the repository! 🚀
+
