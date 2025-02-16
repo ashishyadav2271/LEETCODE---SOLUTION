@@ -1,0 +1,44 @@
+LEETCODE - 3066
+Problem (Minimum Operation To Exceed Threshold Value II)
+SOlution
+class Solution {
+public:
+    int minOperations(vector<int>& a, int k) {
+        sort(a.begin(), a.end());
+        vector<int> b;
+        for (int i = 0, j = 0, count = 0, x, y;; ++count) {
+            if (i < a.size() && (j >= b.size() || a[i] <= b[j]))
+                x = a[i++];
+            else
+                x = b[j++];
+            if (x >= k)
+                return count;
+            if (i < a.size() && (j >= b.size() || a[i] <= b[j]))
+                y = a[i++];
+            else
+                y = b[j++];
+            long t = 2L * x + y; // test overflow
+            b.push_back(t < k ? (int)t : k);
+        }
+        return -1;
+    }
+};
+
+Description 
+🚀 LeetCode 3005 - Minimum Operations to Exceed Threshold Value
+🔹 Problem Statement:
+Given an array a and an integer k, find the minimum number of operations needed to make the smallest element in the array at least k.
+
+In one operation, pick the two smallest elements, remove them, and insert 2 * x + y (where x and y are the smallest values).
+Return the minimum number of operations required.
+🔹 Approach:
+✅ Sort the Array Initially → Ensures we always access the smallest elements efficiently.
+✅ Use a Second Vector (b) → Acts as a priority queue storing newly formed values.
+✅ Merge Sorted Approach:
+
+Extract the two smallest values (from either a or b).
+Compute 2 * x + y and push it back.
+Stop when the smallest value reaches k.
+🔹 Complexity Analysis:
+Time Complexity: O(n log n), due to sorting and merging operations.
+Space Complexity: O(n), for storing intermediate results.
