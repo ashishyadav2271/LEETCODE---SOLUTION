@@ -1,41 +1,40 @@
 class Solution {
-    const double EPS = 1e-6;
 public:
-    bool judgePoint24(vector<int>& cards) {
-        vector<double> nums;
-        for (int n : cards) nums.push_back((double)n);
-        return dfs(nums);
-    }
-private:
-    bool dfs(vector<double>& nums) {
-        if (nums.size() == 1) {
-            return fabs(nums[0] - 24.0) < EPS;
-        }
-        for (int i = 0; i < nums.size(); i++) {
-            for (int j = 0; j < nums.size(); j++) {
-                if (i == j) continue;
-
-                vector<double> next;
-                for (int k = 0; k < nums.size(); k++) {
-                    if (k != i && k != j) next.push_back(nums[k]);
+    bool f(vector<double> &s){
+        if(s.size() == 1) return abs(s[0]-24)<pow(10, -2);
+        for(int i=0; i<s.size()-1; i++)
+        {
+            for(int j=0; j<4; j++)
+            {
+                double a;
+                if(j==0) a = s[i]+s[i+1];
+                else if(j==1) a = s[i]-s[i+1];
+                else if(j==2) a = s[i]*s[i+1];
+                else a = s[i]/s[i+1];
+                vector<double> t;
+                for(int k=0; k<s.size(); k++)
+                {
+                    if(k!=i && k!=i+1) t.push_back(s[k]);
+                    else if(k==i) t.push_back(a);
                 }
-                for (double val : compute(nums[i], nums[j])) {
-                    next.push_back(val);
-                    if (dfs(next)) return true;
-                    next.pop_back();
-                }
+                if(f(t)) return true;
             }
         }
         return false;
     }
-    vector<double> compute(double a, double b) {
-        vector<double> res;
-        res.push_back(a + b);
-        res.push_back(a - b);
-        res.push_back(b - a);
-        res.push_back(a * b);
-        if (fabs(b) > EPS) res.push_back(a / b);
-        if (fabs(a) > EPS) res.push_back(b / a);
-        return res;
+    bool pmt(vector<double> &s, vector<double> &num, int pos, int set){
+        if(pos==4) return f(num);
+        for(int i=0; i<4; i++)
+        {
+            if(set&(1<<i)) continue;
+            num[pos] = s[i];
+            if(pmt(s, num, pos+1, set|(1<<i))) return true;
+        }
+        return false;
+    }
+    bool judgePoint24(vector<int>& cards) {
+        vector<double> s(4), num(4);
+        for(int i=0; i<4; i++) s[i] = cards[i];
+        return pmt(s, num, 0, 0);
     }
 };
